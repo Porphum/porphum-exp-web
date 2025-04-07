@@ -25,5 +25,5 @@ COPY . .
 
 EXPOSE 80
 
-ENTRYPOINT [ "gunicorn", "-w", "2", "-b", "0.0.0.0:80", "main:app" ]
+ENTRYPOINT [ "uvicorn", "formatter.server:app", "--host", "0.0.0.0", "--port", "80", "--workers", "4" ]
 # ENTRYPOINT [ "ls", "-la"]
