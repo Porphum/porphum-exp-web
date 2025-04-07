@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pydantic = "*"
+pydantic-settings = "*"
+fastapi = "*"
+uvicorn = "*"
+pycryptodome = "*"
+jinja2 = "*"
+cryptography = "*"
+
+
+[requires]
+python_version = "3.11"

@@ -1,0 +1,4 @@
+<Подписант СпосПодтПолном='{{ sign_data.Status }}'>
+{% set name_data = sign_data.Master %}
+{% include "fragments/name.xml" %}
+</Подписант>

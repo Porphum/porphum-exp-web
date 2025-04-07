@@ -1,0 +1,27 @@
+<ИдСв>
+{% if entity_data.Organization.Type == 'IndividualEntrepreneur' %}
+    <СвИП 
+    ИННФЛ='{{entity_data.Organization.Inn}}'
+{% if 'Certificate' in entity_data.Organization and entity_data.Organization.Certificate is not none and entity_data.Organization.Certificate != '' %}
+    СвГосРегИП='{{entity_data.Organization.Certificate}}'
+{% endif %}
+    >
+{% set name_data = entity_data.Organization.Owner %}
+{% include "fragments/name.xml" %}
+    </СвИП>
+{% endif %}
+{% if entity_data.Organization.Type == 'LegalEntity' %}
+    <СвЮЛУч
+    НаимОрг='{{entity_data.Organization.Name}}'
+{% if 'Kpp' in entity_data.Organization and entity_data.Organization.Kpp is not none and entity_data.Organization.Kpp != '' %}
+    КПП='{{entity_data.Organization.Kpp}}'
+{% endif %}
+{% if 'Inn' in entity_data.Organization and entity_data.Organization.Inn is not none and entity_data.Organization.Inn != '' %}
+    ИННЮЛ='{{entity_data.Organization.Inn}}'
+{% endif %}
+    />
+{% endif %}
+</ИдСв>
+
+{% set adress_data = entity_data.Adress %}
+{% include "fragments/adress.xml" %}

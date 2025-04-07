@@ -1,0 +1,17 @@
+<ФИО
+{% if 'Surname' in name_data and name_data.Surname is not none and name_data.Surname != '' %}
+Фамилия='{{name_data.Surname}}'
+{% else %}
+Фамилия='Unknown'
+{% endif %}
+{% if 'Name' in name_data and name_data.Name is not none and name_data.Name != '' %}
+Имя='{{name_data.Name}}'
+{% else %}
+Имя='Name'
+{% endif %}
+{% if 'Patrionomyc' in name_data and name_data.Patrionomyc is not none and name_data.Patrionomyc != '' %}
+Отчество='{{name_data.Patrionomyc}}'
+{% else %}
+Отчество='Unknown'
+{% endif %}
+/>

@@ -1,0 +1,20 @@
+<СведТов
+        НомСтр='{{ product_data.LineNumber }}'
+        НаимЕдИзм='шт'
+        НаимТов='{{ product_data.Name }}'
+        ОКЕИ_Тов='796'
+        КолТов='{{ product_data.Quantity }}'
+        ЦенаТов='{{ product_data.ProductPrice }}'
+        СтТовБезНДС='{{ product_data.CostWithoutTaxes }}'
+        СтТовУчНал='{{ product_data.CostWithTaxes }}'
+        НалСт='{{ product_data.TaxesRate }}'
+>
+    <Акциз>
+        <БезАкциз>без акциза</БезАкциз>
+    </Акциз>
+    <СумНал>
+        <СумНал>{{ product_data.TaxesInfo }}</СумНал>
+    </СумНал>
+    <ИнфПолФХЖ2 Идентиф='ПрТовРаб' Значен='{{ product_data.ProductType + " " }}' />
+    <ИнфПолФХЖ2 Идентиф='АртикулТов' Значен='{{ product_data.BarCode + " "}}' />
+</СведТов>
