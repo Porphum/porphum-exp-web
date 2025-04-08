@@ -1,3 +1,4 @@
+import html
 import traceback
 
 from fastapi import FastAPI, Request, HTTPException
@@ -13,6 +14,24 @@ app = FastAPI()
 xml_handler = UPDToXmlHandler()
 
 
+def sanitize_for_xml(json_string):
+    # Load the JSON string into a Python dict
+    data = json.loads(json_string)
+
+    # Recursively escape special XML characters
+    def escape_values(obj):
+        if isinstance(obj, dict):
+            return {k: escape_values(v) for k, v in obj.items()}
+        elif isinstance(obj, list):
+            return [escape_values(i) for i in obj]
+        elif isinstance(obj, str):
+            return html.escape(obj, quote=True)  # escapes &, <, >, " and '
+        else:
+            return obj
+
+    return escape_values(data)
+
+
 @app.post("/api/convert")
 async def convert(request: Request):
     headers = request.headers
@@ -25,7 +44,7 @@ async def convert(request: Request):
         key = bytes.fromhex(settings.RECEIVE_KEY)
         iv = bytes.fromhex(settings.RECEIVE_IV)
         json_str = decrypt_and_decompress(encrypted_payload, key, iv)
-        data = json.loads(json_str)
+        data = sanitize_for_xml(json_str)
 
         xml_output = xml_handler.process_data(data)
 
