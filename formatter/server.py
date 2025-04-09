@@ -10,7 +10,6 @@ from formatter.utils.encrypt import decrypt_data, decompress, compress, encrypt_
     encrypt_and_compress
 
 app = FastAPI()
-# app.config['MAX_CONTENT_LENGTH'] = 512 * 1024 * 1024  # 20 MB
 xml_handler = UPDToXmlHandler()
 
 
@@ -57,4 +56,4 @@ async def convert(request: Request):
             detail=f"{traceback.format_exception(e)}",
         )
 
-    return {"result": encrypted_xml}
+    return encrypted_xml
