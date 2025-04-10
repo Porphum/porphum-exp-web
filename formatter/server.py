@@ -1,7 +1,7 @@
 import html
 import traceback
 
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, Request, HTTPException, Response
 import json
 
 from formatter.handler import UPDToXmlHandler
@@ -33,11 +33,8 @@ def sanitize_for_xml(json_string):
 
 @app.post("/api/convert")
 async def convert(request: Request):
-    headers = request.headers
-    if headers.get("X-Auth-Token") != settings.AUTH_TOKEN:
-        raise HTTPException(status_code=403, detail="Unauthorized")
-
-    encrypted_payload = await request.body()
+    encrypted_payload_bytes = await request.body()
+    encrypted_payload = encrypted_payload_bytes.decode('windows-1251')
 
     try:
         key = bytes.fromhex(settings.RECEIVE_KEY)
@@ -50,10 +47,11 @@ async def convert(request: Request):
         key = bytes.fromhex(settings.SEND_KEY)
         iv = bytes.fromhex(settings.SEND_IV)
         encrypted_xml = encrypt_and_compress(xml_output, key, iv)
+        response_bytes = encrypted_xml.encode("windows-1251")
     except Exception as e:
         raise HTTPException(
             status_code=400,
             detail=f"{traceback.format_exception(e)}",
         )
 
-    return encrypted_xml
+    return Response(content=response_bytes, media_type="application/octet-stream")
