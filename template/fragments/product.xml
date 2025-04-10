@@ -13,7 +13,7 @@
             ПрТовРаб='{{ product_data.ProductType }}'
 {% if 'BarCode' in product_data and product_data.BarCode is not none and product_data.BarCode != '' %}
             АртикулТов='{{ product_data.BarCode }}'
-{% else %}
+{% endif %}
     />
     <Акциз>
         <БезАкциз>без акциза</БезАкциз>
