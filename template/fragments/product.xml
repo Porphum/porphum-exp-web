@@ -9,7 +9,12 @@
         СтТовУчНал='{{ product_data.CostWithTaxes }}'
         НалСт='{{ product_data.TaxesRate }}'
 >
-    <ДопСведТов ПрТовРаб='{{ product_data.ProductType }}' АртикулТов='{{ product_data.BarCode }}'/>
+    <ДопСведТов
+            ПрТовРаб='{{ product_data.ProductType }}'
+{% if 'BarCode' in product_data and product_data.BarCode is not none and product_data.BarCode != '' %}
+            АртикулТов='{{ product_data.BarCode }}'
+{% else %}
+    />
     <Акциз>
         <БезАкциз>без акциза</БезАкциз>
     </Акциз>
