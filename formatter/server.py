@@ -5,12 +5,16 @@ from fastapi import FastAPI, Request, HTTPException, Response
 import json
 
 from formatter.handler import UPDToXmlHandler
+from formatter.logger.mix_in import LoggerMixIn
+from formatter.logger.utils import init_logger
 from formatter.settings import settings
 from formatter.utils.encrypt import decrypt_data, decompress, compress, encrypt_data, decrypt_and_decompress, \
     encrypt_and_compress
 
 app = FastAPI()
 xml_handler = UPDToXmlHandler()
+init_logger()
+logger = LoggerMixIn.init_logger('api')
 
 
 def sanitize_for_xml(json_string):
@@ -35,6 +39,8 @@ def sanitize_for_xml(json_string):
 async def convert(request: Request):
     encrypted_payload_bytes = await request.body()
     encrypted_payload = encrypted_payload_bytes.decode('windows-1251')
+
+    logger.info(f"Request with headers: {request.headers}")
 
     try:
         key = bytes.fromhex(settings.RECEIVE_KEY)
